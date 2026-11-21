@@ -1,0 +1,13 @@
+path,model,investigated_class,layer,map_max
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_374709.jpg,frozen,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_374709.jpg,ft_a,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_374709.jpg,ft_b,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_191869.jpg,frozen,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_191869.jpg,ft_a,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_191869.jpg,ft_b,ig,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/lymphocyte/LY_468617.jpg,frozen,lymphocyte,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/lymphocyte/LY_468617.jpg,ft_a,lymphocyte,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/lymphocyte/LY_468617.jpg,ft_b,lymphocyte,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/erythroblast/ERB_772930.jpg,frozen,erythroblast,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/erythroblast/ERB_772930.jpg,ft_a,erythroblast,features[-1],1.0
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/erythroblast/ERB_772930.jpg,ft_b,erythroblast,features[-1],1.0

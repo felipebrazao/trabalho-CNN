@@ -1,0 +1,23 @@
+{
+  "strategy": "ft_a",
+  "trainable": 3165988,
+  "total": 4017796,
+  "epochs": 12,
+  "seconds": 5365,
+  "time_measurement": "estimate",
+  "time_note": "Estimativa baseada no tempo acumulado impresso no primeiro lote da época 13; inclui esse lote e não constitui medição exata das 12 épocas completas.",
+  "learning_rate": 0.0001,
+  "batch_size": 32,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "patience": 4,
+  "selection": "validation macro F1",
+  "max_epochs": 12,
+  "original_max_epochs": 15,
+  "accepted_completed_epochs": true,
+  "best_epoch": 12,
+  "best_val_macro_f1": 0.9737718885806299,
+  "stop_reason": "manual_interrupt_during_epoch_13; evaluated_completed_epochs_1_to_12",
+  "checkpoint_sha256": "aec1f0bce273b1dec66c7221a4a14a904b5fb3077d93bde0c4624b038fb616b3",
+  "timing_source": "results/metrics/original_ft_a_execution.json"
+}

@@ -1,0 +1,46 @@
+{
+  "model": "ft_b",
+  "rule": "Maior macro F1 na validação; empate: menor tempo, depois menos parâmetros",
+  "rationale": "Recomendamos o fine-tuning B conforme a regra definida de maior macro F1 na validação: 0,981917 (98,19%), contra 0,973772 (97,38%) em A e 0,893068 (89,31%) na base congelada. O ganho é de 0,81 ponto percentual sobre A e 8,88 pontos sobre a referência. B também apresenta maior balanced accuracy (98,34%) e menor loss de validação (0,05657). A seleção usa exclusivamente as 2.561 imagens de validação; o teste não foi consultado.\n\nO F1 de granulócitos imaturos melhora de 93,76% em A para 95,28% em B, e o de linfócitos de 96,72% para 99,17%. Em contrapartida, o recall de monócitos cai de 98,59% para 97,18%; portanto, B não domina A em todas as métricas de todas as classes. As curvas de B mostram redução de loss e aproximação dos F1 de treino e validação na época 12, sem evidência clara de divergência sustentada nesse intervalo. A tem maior oscilação da loss de validação. Isso não exclui overfitting nem garante generalização.\n\nNos casos LY_468617 e ERB_772930, ambos os fine-tunings corrigem erros da base. Os Grad-CAM da classe real na camada features[-1] se concentram mais na célula nesses dois casos, enquanto a base destaca também o contexto. Nos granulócitos imaturos PMY_374709 e PMY_191869, os fine-tunings introduzem erros apesar de destacar a célula. Assim, mapas plausíveis sustentam hipóteses de localização, mas não provam correção, causalidade nem superioridade visual da B sobre A.\n\nB ajusta 3.952.066 parâmetros e levou 7.991 s (133,2 min). A ajusta 3.165.988 parâmetros e seu tempo é estimado em 5.365 s (89,4 min), a partir do primeiro lote da época seguinte; essa aproximação limita a comparação temporal. A etapa congelada, comum às duas estratégias, levou 5.500,6 s. Neste estudo priorizamos macro F1 e consideramos o ganho adicional de B suficiente para recomendá-la, reconhecendo que A pode ser uma alternativa de menor custo. Uma única semente/divisão, a possível dependência entre imagens de pacientes e a origem de aquisição limitam a conclusão. A avaliação final no teste deve verificar a expectativa, sem alterar a escolha nem orientar novos ajustes.",
+  "validation": [
+    {
+      "model": "frozen",
+      "loss": 0.30391474418619946,
+      "accuracy": 0.9016009371339321,
+      "balanced_accuracy": 0.8926648125544439,
+      "macro_f1": 0.8930684045094812,
+      "weighted_f1": 0.9006220825889413,
+      "trainable": 10248,
+      "epochs": 15,
+      "seconds": 5500.613552800001,
+      "time_measurement": "measured",
+      "time_note": "Tempo medido durante a execução."
+    },
+    {
+      "model": "ft_a",
+      "loss": 0.0787547024332428,
+      "accuracy": 0.9742288168684108,
+      "balanced_accuracy": 0.9772186015958902,
+      "macro_f1": 0.9737718885806299,
+      "weighted_f1": 0.9740485619743308,
+      "trainable": 3165988,
+      "epochs": 12,
+      "seconds": 5365.0,
+      "time_measurement": "estimate",
+      "time_note": "Estimativa baseada no tempo acumulado impresso no primeiro lote da Ã©poca 13; inclui esse lote e nÃ£o constitui mediÃ§Ã£o exata das 12 Ã©pocas completas."
+    },
+    {
+      "model": "ft_b",
+      "loss": 0.05657309158318464,
+      "accuracy": 0.9812573213588442,
+      "balanced_accuracy": 0.9834467395556243,
+      "macro_f1": 0.9819170746258046,
+      "weighted_f1": 0.9811680469222941,
+      "trainable": 3952066,
+      "epochs": 12,
+      "seconds": 7991.018977800006,
+      "time_measurement": "measured",
+      "time_note": "Tempo medido durante a execução."
+    }
+  ]
+}

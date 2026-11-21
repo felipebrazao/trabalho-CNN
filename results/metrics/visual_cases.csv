@@ -1,0 +1,15 @@
+path,real,frozen,ft_a,ft_b
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/lymphocyte/LY_468617.jpg,lymphocyte,ig,lymphocyte,lymphocyte
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/erythroblast/ERB_772930.jpg,erythroblast,platelet,erythroblast,erythroblast
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/MY_562076.jpg,ig,neutrophil,neutrophil,neutrophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_374709.jpg,ig,ig,basophil,basophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/PMY_191869.jpg,ig,ig,monocyte,monocyte
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/basophil/BA_564691.jpg,basophil,basophil,basophil,basophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/eosinophil/EO_431365.jpg,eosinophil,eosinophil,eosinophil,eosinophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/MMY_331927.jpg,ig,ig,ig,ig
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/lymphocyte/LY_942960.jpg,lymphocyte,lymphocyte,lymphocyte,lymphocyte
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/monocyte/MO_38756.jpg,monocyte,monocyte,monocyte,monocyte
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/neutrophil/BNE_560491.jpg,neutrophil,neutrophil,neutrophil,neutrophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/platelet/PLATELET_665518.jpg,platelet,platelet,platelet,platelet
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/basophil/BA_957608.jpg,basophil,basophil,basophil,basophil
+data/raw/PBC_dataset_normal_DIB/PBC_dataset_normal_DIB/ig/MMY_48577.jpg,ig,platelet,ig,ig

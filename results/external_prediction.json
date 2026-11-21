@@ -1,0 +1,7 @@
+{
+  "source": "https://commons.wikimedia.org/wiki/File:Neutrophil.jpg",
+  "expected": "neutrophil",
+  "attribution": "Tommaso Leonardi — Neutrophil.jpg — Wikimedia Commons — domínio público.",
+  "predicted": "platelet",
+  "score": 0.8645448684692383
+}

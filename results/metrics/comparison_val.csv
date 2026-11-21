@@ -1,0 +1,4 @@
+model,loss,accuracy,balanced_accuracy,macro_f1,weighted_f1,trainable,epochs,seconds,time_measurement,time_note
+frozen,0.30391474418619946,0.9016009371339321,0.8926648125544439,0.8930684045094812,0.9006220825889413,10248,15,5500.613552800001,measured,Tempo medido durante a execução.
+ft_a,0.0787547024332428,0.9742288168684108,0.9772186015958902,0.9737718885806299,0.9740485619743308,3165988,12,5365.0,estimate,Estimativa baseada no tempo acumulado impresso no primeiro lote da Ã©poca 13; inclui esse lote e nÃ£o constitui mediÃ§Ã£o exata das 12 Ã©pocas completas.
+ft_b,0.05657309158318464,0.9812573213588442,0.9834467395556243,0.9819170746258046,0.9811680469222941,3952066,12,7991.018977800006,measured,Tempo medido durante a execução.

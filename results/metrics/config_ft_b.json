@@ -1,0 +1,14 @@
+{
+  "strategy": "ft_b",
+  "trainable": 3952066,
+  "total": 4017796,
+  "epochs": 12,
+  "seconds": 7991.018977800006,
+  "learning_rate": 1e-05,
+  "batch_size": 32,
+  "optimizer": "AdamW",
+  "weight_decay": 0.0001,
+  "patience": 4,
+  "selection": "validation macro F1",
+  "max_epochs": 12
+}
