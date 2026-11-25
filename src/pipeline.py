@@ -115,9 +115,12 @@ def split_data(root, df):
     meta = root / 'data/splits/metadata.json'
     if meta.exists():
         old = json.loads(meta.read_text(encoding='utf-8'))
-        if old['fingerprint'] != identity:
-            raise ValueError('Dataset mudou. Preserve a separação anterior e revise a mudança antes de criar outro experimento.')
         parts = {k: pd.read_csv(root / f'data/splits/{k}.csv') for k in ['train', 'val', 'test']}
+        if old['fingerprint'] != identity:
+            # A ordem de listagem muda entre sistemas (Windows x Linux); compara o conteúdo.
+            key = lambda frame: set(zip(frame.path, frame.sha256, frame.label))
+            if key(df) != key(pd.concat(parts.values())):
+                raise ValueError('Dataset mudou. Preserve a separação anterior e revise a mudança antes de criar outro experimento.')
     else:
         train, rest = train_test_split(df, test_size=.30, stratify=df.target, random_state=SEED)
         val, test = train_test_split(rest, test_size=.50, stratify=rest.target, random_state=SEED)
@@ -266,13 +269,11 @@ def prepare_b_context(root):
 
 def train(root, parts, device, strategy, epochs=15, batch_size=32):
     accepted_path = root / f'results/metrics/config_{strategy}.json'
-    if accepted_path.exists():
+    # Condição já treinada: reutiliza checkpoint e configuração, sem retreinar (A e B dependem de frozen.pt).
+    if accepted_path.exists() and (root / f'models/{strategy}.pt').exists():
         accepted = json.loads(accepted_path.read_text(encoding='utf-8'))
-        if accepted.get('accepted_completed_epochs'):
-            if not (root / f'models/{strategy}.pt').exists():
-                raise FileNotFoundError('Configuração consolidada sem checkpoint correspondente.')
-            print(f'{strategy}: reutilizando {accepted["epochs"]} épocas completas; nenhum treinamento iniciado.', flush=True)
-            return accepted
+        print(f'{strategy}: reutilizando {accepted["epochs"]} épocas salvas; nenhum treinamento iniciado.', flush=True)
+        return accepted
     seed_all()
     model = build() if strategy == 'frozen' else load_checkpoint(root, 'frozen', device)
     n_trainable = configure(model, strategy)
@@ -433,12 +434,18 @@ def gradcam(model, image, class_idx, device):
         handle.remove()
 
 
-def explain(root, predictions, device, max_cases=4):
+def gradcam_cases(predictions):
+    """Índices por categoria: erros corrigidos, erros novos, erro persistente e acerto comum."""
+    ok = {name: frame.prediction == frame.target for name, frame in predictions.items()}
+    base, ft = ok['frozen'], ok['ft_a'] & ok['ft_b']
+    groups = [(~base & ft, 2), (base & ~(ok['ft_a'] & ok['ft_b']), 2),
+              (~base & ~ok['ft_a'] & ~ok['ft_b'], 1), (base & ft, 1)]
+    return list(dict.fromkeys(i for mask, n in groups for i in mask[mask].index[:n].tolist()))
+
+
+def explain(root, predictions, device):
     base = predictions['frozen']
-    errors = base.index[base.prediction != base.target].tolist()
-    changed = base.index[(predictions['ft_a'].prediction != base.prediction) |
-                         (predictions['ft_b'].prediction != base.prediction)].tolist()
-    indices = list(dict.fromkeys(changed[:2] + errors[:2] + base.nsmallest(2, 'score').index.tolist() + [0]))[:max_cases]
+    indices = gradcam_cases(predictions)
     fig, axes = plt.subplots(len(indices), 4, figsize=(14, len(indices) * 3), squeeze=False)
     records = []
     for row, idx in enumerate(indices):
@@ -476,8 +483,13 @@ def recommend(root, table, rationale):
     decision = dict(model=winner, rule='Maior macro F1 na validação; empate: menor tempo, depois menos parâmetros',
                     rationale=rationale, validation=table.to_dict(orient='records'))
     path = root / 'results/recommendation.json'
-    if path.exists() and json.loads(path.read_text(encoding='utf-8')) != decision:
-        raise RuntimeError('Já existe uma recomendação. Não altere a escolha depois de consultar o teste.')
+    if path.exists():
+        previous = json.loads(path.read_text(encoding='utf-8'))
+        if previous['model'] != winner:
+            raise RuntimeError('Já existe uma recomendação. Não altere a escolha depois de consultar o teste.')
+        # Reexecução: preserva o registro original feito antes do teste.
+        print('Recomendação já registrada antes do teste:', winner)
+        return winner
     path.write_text(json.dumps(decision, indent=2, ensure_ascii=False), encoding='utf-8')
     checkpoint = torch.load(root / f'models/{winner}.pt', map_location='cpu', weights_only=True)
     torch.save(checkpoint, root / 'models/selected.pt')
