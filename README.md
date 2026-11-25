@@ -6,7 +6,7 @@
 
 **Professora:** Polyana Santos Fonseca Nascimento.
 
-**Estado:** experimento executado; revisão final e slides pendentes. Veja [a passagem para revisão e apresentação](docs/REVISAO_E_SLIDES.md).
+**Estado:** experimento executado; revisão final e slides pendentes.
 
 Projeto acadêmico com oito classes do PBC. Compara base congelada e duas estratégias de fine-tuning, com explicabilidade Grad-CAM. A base congelada concluiu 15 épocas; A e B foram avaliadas com 12 épocas completas. Comparação, Grad-CAM, recomendação anterior ao teste e avaliação final foram realizados. A discussão está no notebook e em docs/discussao_final.md. Ainda faltam a demonstração com imagem externa, os slides e a revisão final da entrega.
 
@@ -33,33 +33,13 @@ Abra `CNN.ipynb` e selecione o kernel Python (CNN PBC). O código utiliza CUDA q
 
 O download e a extração são manuais para evitar dependência de endpoints internos do repositório. Não coloque o dataset no GitHub. Cite Acevedo et al. e preserve a atribuição CC BY 4.0.
 
-O dataset extraído nesta sessão foi movido para `data/raw/PBC_dataset_normal_DIB`. Arquivos de metadados do macOS são ignorados. Para obter antecipadamente os pesos oficiais (cerca de 20 MB), execute no PowerShell da pasta do projeto:
-
-```powershell
-.\baixar_pesos.ps1
-```
-
-O script é código local deste projeto, baixa apenas o checkpoint oficial e confere o prefixo SHA-256 informado pelo Torchvision. Se a política de execução da máquina bloquear scripts, abra `baixar_pesos.ps1` e execute seu conteúdo no terminal. O cache fica em `models/pretrained`; não substitua transfer learning por pesos aleatórios quando faltar acesso à internet.
+O dataset extraído nesta sessão foi movido para `data/raw/PBC_dataset_normal_DIB`. Arquivos de metadados do macOS são ignorados. Os pesos ImageNet (cerca de 20 MB) são baixados pelo Torchvision na primeira execução e ficam em `models/pretrained`; não substitua transfer learning por pesos aleatórios quando faltar acesso à internet.
 
 ## Execução
 
-Quando decidir executar a B e gerar os resultados de validação sem abrir o teste:
+`CNN.ipynb` é o único arquivo de código: contém, em ordem, as definições, o treinamento, a análise, a recomendação, o teste e a inferência com imagem externa (seção 12). Cada função é definida na célula imediatamente anterior ao seu uso. Mantenha a estrutura de pastas. A célula de recomendação pede uma justificativa real antes de liberar o teste. Essa pausa é intencional: o teste só pode ser consultado depois da escolha pela validação.
 
-```powershell
-.\.venv\Scripts\python.exe -u executar_treinamentos.py
-```
-
-O executor preserva condições já concluídas, reinicia uma condição interrompida a partir do estado inicial correto e salva seu estado em `results/training_status.json`. Não inicie duas execuções simultâneas. A execução iniciada nesta sessão registra a saída em `results/training.log`. Ao terminar os treinos, o estado será `awaiting_analysis`: é necessário interpretar a validação, registrar a recomendação e só depois avaliar o teste.
-
-`CNN.ipynb` importa `src/pipeline.py`; mantenha a estrutura de pastas. O notebook contém treinamento, análise, recomendação e teste. Leia e complete as células Markdown à medida que os resultados aparecerem. A célula de recomendação pede uma justificativa real antes de liberar o teste. Essa pausa é intencional: o teste só pode ser consultado depois da escolha pela validação.
-
-Para executar pelo terminal e salvar as saídas no notebook:
-
-```powershell
-.\.venv\Scripts\python.exe executar_notebook.py
-```
-
-O executor interrompe com erro quando encontrar uma etapa que dependa de preenchimento. Nesse caso, abra o notebook e complete a análise correspondente. Uma nova execução completa repete os treinamentos; para apenas inferência, use `Inferencia.ipynb`.
+Condições já treinadas são reaproveitadas a partir de `models/` e `results/metrics/`, sem novo treinamento. Para apenas reutilizar o modelo, execute a configuração inicial, as células de definição e a seção 12; não é preciso baixar o dataset.
 
 No Colab, envie o projeto completo ou clone seu futuro repositório, instale `requirements.txt`, selecione GPU e ajuste `ROOT` na primeira célula. Mantenha dados e resultados em armazenamento persistente antes de encerrar a sessão. O notebook não monta contas automaticamente.
 
@@ -81,10 +61,7 @@ Seleção: maior macro F1 na validação; empate exato resolvido por menor tempo
 
 | Arquivo/pasta | Finalidade |
 |---|---|
-| `CNN.ipynb` | Notebook principal com explicações e etapas executáveis |
-| `Inferencia.ipynb` | Reutilização sem treinamento e imagem externa |
-| `src/pipeline.py` | Preparação, modelos, treinamento, avaliação e Grad-CAM |
-| `executar_notebook.py` | Executor que salva saídas mesmo se houver erro |
+| `CNN.ipynb` | Único arquivo de código: explicações, etapas executáveis e inferência |
 | `data/splits` | Manifestos de treino, validação e teste |
 | `models` | Checkpoints e `selected.pt` após recomendação |
 | `results` | Curvas, tabelas, previsões, configurações e mapas |
@@ -107,11 +84,11 @@ Não há separação por paciente implementada, pois o projeto não assume ident
 
 ## Estado consolidado
 
-A conserva 12 épocas completas e o checkpoint salvo. Seu tempo de 5.365 s é uma estimativa baseada no primeiro lote da época 13; a tabela identifica essa limitação. A execução original foi preservada. A B concluiu as 12 épocas e seus resultados estão registrados. A célula B inicia o treinamento quando executada; veja `docs/proxima_execucao.md` para executar em outro dia. O histórico das etapas está preservado nos resultados.
+A conserva 12 épocas completas e o checkpoint salvo. Seu tempo de 5.365 s é uma estimativa baseada no primeiro lote da época 13; a tabela identifica essa limitação. A execução original foi preservada. A B concluiu as 12 épocas e seus resultados estão registrados. O histórico das etapas está preservado nos resultados.
 
 ## Continuar pela B após reiniciar o PC
 
-Abra CNN.ipynb, selecione o kernel .venv e execute diretamente a célula da B, na seção 6. Ela é autossuficiente: restaura imports, diretório, dispositivo e os conjuntos salvos; preserva a base congelada e A; inicia B com máximo de 12 épocas. Não é necessário executar as células de treinamento anteriores. O treinamento deve permanecer no VS Code ou no terminal aberto pelo usuário, pois a sessão de comandos do assistente não permaneceu ativa entre turnos.
+Abra CNN.ipynb, selecione o kernel .venv, execute as células de definição (as que só contêm `def`/`class`, além da configuração inicial) e depois a célula da B, na seção 6. Ela restaura os conjuntos salvos, preserva a base congelada e A e inicia B com máximo de 12 épocas. Não é necessário executar as células de treinamento anteriores. O treinamento deve permanecer no VS Code ou no terminal aberto pelo usuário, pois a sessão de comandos do assistente não permaneceu ativa entre turnos.
 
 ## Resultados finais já avaliados
 
@@ -119,7 +96,7 @@ A recomendação anterior ao teste foi mantida: fine-tuning B. Macro F1 no teste
 
 ## Demonstração externa concluída
 
-Inferencia.ipynb foi executado e contém as saídas salvas. O arquivo real é data/external/fotografia-original.jpg. Classe esperada pela fonte: neutrophil; previsão: platelet; score: 86,45%. O erro foi preservado e discutido, sem alterar o modelo. Fonte e atribuição estão no notebook e em docs/demonstracao_externa.md. O ZIP agora inclui models/selected.pt e a imagem externa para permitir a reutilização; os demais pesos, o dataset bruto e o ambiente continuam excluídos. Restam os slides e a revisão final da entrega.
+A seção 12 de CNN.ipynb foi executada e contém as saídas salvas. O arquivo real é data/external/fotografia-original.jpg. Classe esperada pela fonte: neutrophil; previsão: platelet; score: 86,45%. O erro foi preservado e discutido, sem alterar o modelo. Fonte e atribuição estão no notebook e em docs/demonstracao_externa.md. Restam os slides e a revisão final da entrega.
 
 ## Checkpoints disponíveis no GitHub
 
@@ -130,6 +107,4 @@ Os quatro checkpoints finais estão na pasta models/ e são obtidos ao clonar o 
 - ft_b.pt: melhor checkpoint do fine-tuning B.
 - selected.pt: modelo recomendado para inferência.
 
-Para usar o modelo final sem treinar, instale requirements.txt e execute Inferencia.ipynb. Para reproduzir a avaliação comparativa em CNN.ipynb, prepare o dataset indicado acima, preserve os manifestos de data/splits e use os checkpoints existentes com src.pipeline.load_checkpoint(root, nome, device), onde nome é frozen, ft_a ou ft_b. Evite executar as células de treinamento se o objetivo for apenas avaliar os modelos já treinados.
-
-O ZIP gerado por empacotar.py continua incluindo somente selected.pt entre os modelos; para obter os checkpoints de comparação, clone o repositório ou baixe-os da pasta models/ no GitHub.
+Para usar o modelo final sem treinar, instale requirements.txt e execute as células de definição e a seção 12 de CNN.ipynb. Para reproduzir a avaliação comparativa em CNN.ipynb, prepare o dataset indicado acima, preserve os manifestos de data/splits e use os checkpoints existentes com load_checkpoint(ROOT, nome, DEVICE), onde nome é frozen, ft_a ou ft_b. Evite executar as células de treinamento se o objetivo for apenas avaliar os modelos já treinados.
