@@ -91,7 +91,7 @@ Seleção: maior macro F1 na validação; empate exato resolvido por menor tempo
 | `slides/roteiro.md` | Roteiro de apresentação de até 12 minutos |
 | `docs/defesa.md` | Perguntas e explicações para preparação oral |
 
-Antes da entrega: executar tudo, completar análises, registrar a contribuição real da IA, preencher fonte e classe da imagem externa, exportar os slides e anexar o modelo. Os slides finais precisam incorporar os resultados reais. O Git inclui apenas o modelo selecionado e a fotografia externa; dataset bruto, ambiente e checkpoints auxiliares são ignorados. O checkpoint recomendado está em `models/selected.pt`.
+Antes da entrega: executar tudo, completar análises, registrar a contribuição real da IA, preencher fonte e classe da imagem externa, exportar os slides e anexar o modelo. Os slides finais precisam incorporar os resultados reais. O Git inclui os checkpoints frozen.pt, ft_a.pt, ft_b.pt e selected.pt em models/, além da fotografia externa; dataset bruto, ambiente e cache de pesos ImageNet são ignorados. O checkpoint recomendado está em `models/selected.pt`.
 
 ## Limitações
 
@@ -120,3 +120,16 @@ A recomendação anterior ao teste foi mantida: fine-tuning B. Macro F1 no teste
 ## Demonstração externa concluída
 
 Inferencia.ipynb foi executado e contém as saídas salvas. O arquivo real é data/external/fotografia-original.jpg. Classe esperada pela fonte: neutrophil; previsão: platelet; score: 86,45%. O erro foi preservado e discutido, sem alterar o modelo. Fonte e atribuição estão no notebook e em docs/demonstracao_externa.md. O ZIP agora inclui models/selected.pt e a imagem externa para permitir a reutilização; os demais pesos, o dataset bruto e o ambiente continuam excluídos. Restam os slides e a revisão final da entrega.
+
+## Checkpoints disponíveis no GitHub
+
+Os quatro checkpoints finais estão na pasta models/ e são obtidos ao clonar o repositório, sem Git LFS:
+
+- frozen.pt: base com extrator congelado; ponto de partida comum dos fine-tunings.
+- ft_a.pt: melhor checkpoint do fine-tuning A.
+- ft_b.pt: melhor checkpoint do fine-tuning B.
+- selected.pt: modelo recomendado para inferência.
+
+Para usar o modelo final sem treinar, instale requirements.txt e execute Inferencia.ipynb. Para reproduzir a avaliação comparativa em CNN.ipynb, prepare o dataset indicado acima, preserve os manifestos de data/splits e use os checkpoints existentes com src.pipeline.load_checkpoint(root, nome, device), onde nome é frozen, ft_a ou ft_b. Evite executar as células de treinamento se o objetivo for apenas avaliar os modelos já treinados.
+
+O ZIP gerado por empacotar.py continua incluindo somente selected.pt entre os modelos; para obter os checkpoints de comparação, clone o repositório ou baixe-os da pasta models/ no GitHub.

@@ -5,6 +5,9 @@ data/raw/*
 data/processed/*
 data/external/*
 models/*
+!models/frozen.pt
+!models/ft_a.pt
+!models/ft_b.pt
 !models/selected.pt
 !data/external/fotografia-original.jpg
 !**/.gitkeep

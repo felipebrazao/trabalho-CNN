@@ -39,6 +39,6 @@ Na demonstração externa, a fonte identifica um neutrófilo; o modelo previu pl
 
 Crie um `.venv` e instale `requirements.txt`, conforme o README. O repositório contém o modelo escolhido e a foto para executar apenas `Inferencia.ipynb`, sem baixar o dataset nem treinar novamente. A instalação local usada foi PyTorch CPU; as versões efetivas estão em `results/environment.json`.
 
-Para conferir o material existente, comece pelas saídas salvas. **Executar todas as células de CNN.ipynb pode repetir o treinamento da base congelada.** Baixar o dataset só é necessário para reproduzir os treinos ou avaliações; os checkpoints auxiliares congelado/A/B não estão versionados, apenas `selected.pt`.
+Para conferir o material existente, comece pelas saídas salvas. **Executar todas as células de CNN.ipynb pode repetir o treinamento da base congelada.** Baixar o dataset só é necessário para reproduzir os treinos ou avaliações; os checkpoints congelado/A/B e `selected.pt` estão versionados em `models/`.
 
 O notebook principal exige revisão para uma reprodução completa de ponta a ponta em um clone limpo, considerando os artefatos externos e o histórico da execução. Não utilizar o teste para escolher novos ajustes.
